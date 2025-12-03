@@ -1,0 +1,67 @@
+replicaCount: 1
+
+image:
+  repository: yevgen1986/kbot
+  pullPolicy: IfNotPresent
+  tag: v1.0.0
+  arch: amd64
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+# <--- ДОБАВИЛИ ВОТ ЭТО
+httpRoute:
+  enabled: false
+# остальное можно не задавать, т.к. шаблон проверяет только enabled
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+livenessProbe: {}
+readinessProbe: {}
+
+volumeMounts: []
+volumes: []
+
+teleTokenSecret:
+  name: tele-token
+  key: TELE_TOKEN
