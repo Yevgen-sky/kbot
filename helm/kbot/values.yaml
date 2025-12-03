@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: yevgen1986/kbot
+  repository: yevgen1986
   pullPolicy: IfNotPresent
   tag: v1.0.0
   arch: amd64
