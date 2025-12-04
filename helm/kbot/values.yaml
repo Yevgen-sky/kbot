@@ -4,7 +4,7 @@ image:
   registry: "ghcr.io"
   repository: "yevgen-sky/kbot"
   pullPolicy: IfNotPresent
-  tag: "v1.0.0"
+  tag: "v1.0.0-b78339f"
   os: "linux"
   arch: "amd64"
 
