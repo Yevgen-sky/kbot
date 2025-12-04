@@ -1,0 +1,76 @@
+name: CI/CD kbot
+
+on:
+  push:
+    branches: [ "develop" ]
+
+env:
+  REGISTRY: ghcr.io
+  REPOSITORY: Yevgen-sky/kbot
+  OS: linux
+  ARCH: amd64
+  VERSION: v1.0.0               
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write        
+      packages: write        
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute image tag
+        id: vars
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          IMAGE_TAG="${VERSION}-${SHORT_SHA}"
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "IMAGE_FULL=${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}-${OS}-${ARCH}" >> $GITHUB_ENV
+
+      - name: Build and push docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ${{ env.IMAGE_FULL }}
+
+      - name: Update Helm values.yaml
+        run: |
+          sed -i "s/^  registry:.*/  registry: \"${REGISTRY}\"/" helm/kbot/values.yaml
+          sed -i "s/^  repository:.*/  repository: \"${REPOSITORY}\"/" helm/kbot/values.yaml
+          sed -i "s/^  tag:.*/  tag: \"${IMAGE_TAG}\"/" helm/kbot/values.yaml
+          sed -i "s/^  os:.*/  os: \"${OS}\"/" helm/kbot/values.yaml
+          sed -i "s/^  arch:.*/  arch: \"${ARCH}\"/" helm/kbot/values.yaml
+
+      - name: Commit updated values.yaml
+        if: ${{ github.ref == 'refs/heads/develop' }}
+        run: |
+          git status
+          if git diff --quiet; then
+            echo "No changes to commit."
+          else
+            git add helm/kbot/values.yaml
+            git commit -m "chore: update image tag to ${IMAGE_TAG}"
+            git push origin develop
+          fi

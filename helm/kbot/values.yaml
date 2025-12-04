@@ -1,10 +1,12 @@
 replicaCount: 1
 
 image:
-  repository: yevgen1986
+  registry: "ghcr.io"
+  repository: "yevgen1986/kbot"
   pullPolicy: IfNotPresent
-  tag: v1.0.0
-  arch: amd64
+  tag: "v1.0.0"
+  os: "linux"
+  arch: "amd64"
 
 imagePullSecrets: []
 
@@ -36,10 +38,10 @@ ingress:
           pathType: ImplementationSpecific
   tls: []
 
-# <--- ДОБАВИЛИ ВОТ ЭТО
+# --- ДОБАВИЛИ ВОТ ЭТО ---
 httpRoute:
   enabled: false
-# остальное можно не задавать, т.к. шаблон проверяет только enabled
+  # остальные поля можно не задавать, если шаблон проверяет только enabled
 
 resources: {}
 
