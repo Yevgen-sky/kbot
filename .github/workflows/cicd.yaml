@@ -6,18 +6,18 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  REPOSITORY: Yevgen-sky/kbot
+  REPOSITORY: yevgen-sky/kbot
   OS: linux
   ARCH: amd64
-  VERSION: v1.0.0               
+  VERSION: v1.0.0
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write        
-      packages: write        
+      contents: write
+      packages: write
       id-token: write
 
     steps:

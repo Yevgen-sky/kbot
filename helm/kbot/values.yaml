@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   registry: "ghcr.io"
-  repository: "yevgen1986/kbot"
+  repository: "yevgen-sky/kbot"
   pullPolicy: IfNotPresent
   tag: "v1.0.0"
   os: "linux"
