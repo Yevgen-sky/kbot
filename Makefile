@@ -40,11 +40,11 @@ helm-template:
 	helm template kbot $(HELM_CHART_PATH)
 
 update-values:
-	sed -i "s/^  registry:.*/  registry: \"$(REGISTRY)\"/" $(HELM_CHART_PATH)/values.yaml
-	sed -i "s/^  repository:.*/  repository: \"$(REPOSITORY)\"/" $(HELM_CHART_PATH)/values.yaml
-	sed -i "s/^  tag:.*/  tag: \"$(IMAGE_TAG)\"/" $(HELM_CHART_PATH)/values.yaml
-	sed -i "s/^  os:.*/  os: \"$(OS)\"/" $(HELM_CHART_PATH)/values.yaml
-	sed -i "s/^  arch:.*/  arch: \"$(ARCH)\"/" $(HELM_CHART_PATH)/values.yaml
+	sed -i "s|^  registry:.*|  registry: \"$(REGISTRY)\"|" $(HELM_CHART_PATH)/values.yaml
+	sed -i "s|^  repository:.*|  repository: \"$(REPOSITORY)\"|" $(HELM_CHART_PATH)/values.yaml
+	sed -i "s|^  tag:.*|  tag: \"$(IMAGE_TAG)\"|" $(HELM_CHART_PATH)/values.yaml
+	sed -i "s|^  os:.*|  os: \"$(OS)\"|" $(HELM_CHART_PATH)/values.yaml
+	sed -i "s|^  arch:.*|  arch: \"$(ARCH)\"|" $(HELM_CHART_PATH)/values.yaml
 
 helm-upgrade:
 	helm upgrade --install kbot $(HELM_CHART_PATH) \
