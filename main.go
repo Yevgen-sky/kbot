@@ -9,7 +9,6 @@ import (
 func main() {
     cmd.Execute()
 
-    // держим процесс живым, но без дедлока
     for {
         time.Sleep(10 * time.Minute)
     }
