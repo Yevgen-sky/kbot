@@ -4,4 +4,7 @@ import "github.com/Yevgen-sky/kbot/cmd"
 
 func main() {
 	cmd.Execute()
+
+select {}
+
 }
