@@ -1,10 +1,16 @@
 package main
 
-import "github.com/Yevgen-sky/kbot/cmd"
+import (
+    "time"
+
+    "github.com/Yevgen-sky/kbot/cmd"
+)
 
 func main() {
-	cmd.Execute()
+    cmd.Execute()
 
-select {}
-
+    // держим процесс живым, но без дедлока
+    for {
+        time.Sleep(10 * time.Minute)
+    }
 }
