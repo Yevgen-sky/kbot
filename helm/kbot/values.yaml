@@ -2,9 +2,9 @@ replicaCount: 1
 
 image:
   registry: "ghcr.io"
-  repository: "ghcr.io/yevgen-sky/kbot"
+  repository: "yevgen-sky/kbot"
   pullPolicy: IfNotPresent
-  tag: "v1.0.0-914fc52-linux-amd64"
+  tag: "v1.0.0-a213f4c"
   os: "linux"
   arch: "amd64"
 
